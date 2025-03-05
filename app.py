@@ -4,6 +4,8 @@ from keras.preprocessing.sequence import pad_sequences
 import pickle
 import numpy as np
 from flask_cors import CORS
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Disable GPU
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -46,4 +48,5 @@ def predict():
 
 # Run the Flask app
 if __name__ == '__main__':
-    app.run()
+    port = int(os.environ.get("PORT", 5000))  # Default to 5000 if PORT is not set
+    app.run(host="0.0.0.0", port=port)
