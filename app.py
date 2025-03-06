@@ -3,6 +3,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Disable GPU
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"  # Suppress TensorFlow debug logs
 os.environ["TF_FORCE_UNIFIED_MEMORY"] = "1"  # Helps reduce memory use
 os.environ["XLA_PYTHON_CLIENT_MEM_FRACTION"] = ".50"  # Limits TensorFlow memory to 50%
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"  # Disable OneDNN optimizations (reduces errors)
 
 import tensorflow as tf
 from keras.preprocessing.sequence import pad_sequences
@@ -20,7 +21,7 @@ CORS(app)  # Allow all origins
 CORS(app, resources={r"/predict": {"origins": "*"}})
 
 # Load the trained LSTM model
-model = tf.keras.models.load_model("models.h5")
+model = tf.keras.models.load_model("models.h5", compile=False)
 
 # Compile the model (even if it’s already trained)
 model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
