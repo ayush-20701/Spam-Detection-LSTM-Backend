@@ -1,11 +1,14 @@
-from flask import Flask, request, jsonify
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Disable GPU
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"  # Suppress TensorFlow debug logs
+
 import tensorflow as tf
 from keras.preprocessing.sequence import pad_sequences
 import pickle
 import numpy as np
+from flask import Flask, request, jsonify
 from flask_cors import CORS
-import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Disable GPU
+
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -16,6 +19,9 @@ CORS(app, resources={r"/predict": {"origins": "*"}})
 
 # Load the trained LSTM model
 model = tf.keras.models.load_model("models.h5")
+
+# Compile the model (even if it’s already trained)
+model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
 
 # Load the tokenizer
 with open("tokenizer.pkl", "rb") as handle:
