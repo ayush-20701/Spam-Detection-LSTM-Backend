@@ -1,6 +1,8 @@
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Disable GPU
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"  # Suppress TensorFlow debug logs
+os.environ["TF_FORCE_UNIFIED_MEMORY"] = "1"  # Helps reduce memory use
+os.environ["XLA_PYTHON_CLIENT_MEM_FRACTION"] = ".50"  # Limits TensorFlow memory to 50%
 
 import tensorflow as tf
 from keras.preprocessing.sequence import pad_sequences
