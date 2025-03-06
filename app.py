@@ -32,6 +32,10 @@ with open("tokenizer.pkl", "rb") as handle:
 # Define the max sequence length used in training
 MAX_SEQUENCE_LENGTH = 50  
 
+@app.route('/')
+def index():
+    return "Welcome to Spam Detector API!"
+
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
