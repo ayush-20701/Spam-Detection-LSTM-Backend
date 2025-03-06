@@ -11,6 +11,9 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Disable GPU
 app = Flask(__name__)
 CORS(app)  # Allow all origins
 
+# Allow CORS for your frontend origin (Change to '*' if necessary)
+CORS(app, resources={r"/predict": {"origins": "*"}})
+
 # Load the trained LSTM model
 model = tf.keras.models.load_model("models.h5")
 
